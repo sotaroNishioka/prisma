@@ -1,0 +1,56 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["jsonProtocol"]
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("POSTGRES_PRISMA_URL")
+  directUrl         = env("POSTGRES_URL_NON_POOLING")
+  shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") 
+}
+
+model User {
+  id      String      @id @default(dbgenerated("uuid_generate_v4()"))
+  status  UserStatus  @default(NOT_AUTHENTICATED)
+  name    String      @db.VarChar(255)
+  email   String      @db.VarChar(255)
+  books   Book[]
+}
+
+model Book {
+  id      String      @id @default(dbgenerated("uuid_generate_v4()"))
+  status  BookStatus  @default(IN_PROGRESS)
+  cards   Card[]
+  userId  String
+  user    User        @relation(fields: [userId], references: [id])
+}
+
+model Card {
+  id      String      @id @default(dbgenerated("uuid_generate_v4()"))
+  status  CardStatus  @default(IN_PROGRESS)
+  eng     String      @db.VarChar(255)
+  ja      String      @db.VarChar(255)
+  memo    String      @db.Text
+  bookId  String
+  book    Book        @relation(fields: [bookId], references: [id])
+}
+
+enum UserStatus {
+    NOT_AUTHENTICATED
+    AUTHENTICATED
+}
+
+enum BookStatus {
+    FAVORITE
+    IN_PROGRESS
+    DONE
+    DELETED
+}
+
+enum CardStatus {
+    FAVORITE
+    IN_PROGRESS
+    DONE
+    DELETED
+}
