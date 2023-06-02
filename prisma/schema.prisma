@@ -24,6 +24,8 @@ model card {
   eng    String      @db.VarChar(255)
   ja     String      @db.VarChar(255)
   memo   String
+  userId String
+  user   user        @relation(fields: [userId], references: [id])
   bookId String
   book   book        @relation(fields: [bookId], references: [id])
 }
@@ -34,6 +36,7 @@ model user {
   name   String      @db.VarChar(255)
   email  String      @db.VarChar(255)
   book   book[]
+  card   card[]
 }
 
 enum book_status {
