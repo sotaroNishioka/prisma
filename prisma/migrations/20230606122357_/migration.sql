@@ -13,8 +13,9 @@ CREATE TYPE "user_status" AS ENUM ('NOT_AUTHENTICATED', 'AUTHENTICATED');
 -- CreateTable
 CREATE TABLE "book" (
     "id" TEXT NOT NULL DEFAULT uuid_generate_v4(),
+    "name" VARCHAR(255) NOT NULL,
     "status" "book_status" NOT NULL DEFAULT 'IN_PROGRESS',
-    "userId" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
 
     CONSTRAINT "book_pkey" PRIMARY KEY ("id")
 );
@@ -23,11 +24,11 @@ CREATE TABLE "book" (
 CREATE TABLE "card" (
     "id" TEXT NOT NULL DEFAULT uuid_generate_v4(),
     "status" "card_status" NOT NULL DEFAULT 'IN_PROGRESS',
-    "eng" VARCHAR(255) NOT NULL,
-    "ja" VARCHAR(255) NOT NULL,
+    "english" VARCHAR(255) NOT NULL,
+    "japanese" VARCHAR(255) NOT NULL,
     "memo" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "bookId" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "book_id" TEXT NOT NULL,
 
     CONSTRAINT "card_pkey" PRIMARY KEY ("id")
 );
@@ -43,10 +44,10 @@ CREATE TABLE "user" (
 );
 
 -- AddForeignKey
-ALTER TABLE "book" ADD CONSTRAINT "book_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "book" ADD CONSTRAINT "book_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "card" ADD CONSTRAINT "card_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "card" ADD CONSTRAINT "card_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "card" ADD CONSTRAINT "card_bookId_fkey" FOREIGN KEY ("bookId") REFERENCES "book"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "card" ADD CONSTRAINT "card_book_id_fkey" FOREIGN KEY ("book_id") REFERENCES "book"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

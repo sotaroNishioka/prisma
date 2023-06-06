@@ -14,8 +14,8 @@ model book {
   id     String       @id @default(dbgenerated("uuid_generate_v4()"))
   name   String       @db.VarChar(255)
   status book_status  @default(IN_PROGRESS)
-  userId String
-  user   user         @relation(fields: [userId], references: [id])
+  user_id String
+  user   user         @relation(fields: [user_id], references: [id])
   cards   card[]
 }
 
@@ -25,10 +25,10 @@ model card {
   english    String    @db.VarChar(255)
   japanese     String  @db.VarChar(255)
   memo   String
-  userId String
-  user   user          @relation(fields: [userId], references: [id])
-  bookId String
-  book   book          @relation(fields: [bookId], references: [id])
+  user_id String
+  user   user          @relation(fields: [user_id], references: [id])
+  book_id String
+  book   book          @relation(fields: [book_id], references: [id])
 }
 
 model user {
