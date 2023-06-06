@@ -11,32 +11,33 @@ datasource db {
 }
 
 model book {
-  id     String      @id @default(dbgenerated("uuid_generate_v4()"))
-  status book_status @default(IN_PROGRESS)
+  id     String       @id @default(dbgenerated("uuid_generate_v4()"))
+  name   String       @db.VarChar(255)
+  status book_status  @default(IN_PROGRESS)
   userId String
-  user   user        @relation(fields: [userId], references: [id])
-  card   card[]
+  user   user         @relation(fields: [userId], references: [id])
+  cards   card[]
 }
 
 model card {
-  id     String      @id @default(dbgenerated("uuid_generate_v4()"))
-  status card_status @default(IN_PROGRESS)
-  eng    String      @db.VarChar(255)
-  ja     String      @db.VarChar(255)
+  id     String        @id @default(dbgenerated("uuid_generate_v4()"))
+  status card_status   @default(IN_PROGRESS)
+  english    String    @db.VarChar(255)
+  japanese     String  @db.VarChar(255)
   memo   String
   userId String
-  user   user        @relation(fields: [userId], references: [id])
+  user   user          @relation(fields: [userId], references: [id])
   bookId String
-  book   book        @relation(fields: [bookId], references: [id])
+  book   book          @relation(fields: [bookId], references: [id])
 }
 
 model user {
-  id     String      @id @default(dbgenerated("uuid_generate_v4()"))
-  status user_status @default(NOT_AUTHENTICATED)
-  name   String      @db.VarChar(255)
-  email  String      @db.VarChar(255)
-  book   book[]
-  card   card[]
+  id     String       @id @default(dbgenerated("uuid_generate_v4()"))
+  status user_status  @default(NOT_AUTHENTICATED)
+  name   String       @db.VarChar(255)
+  email  String       @db.VarChar(255)
+  books   book[]
+  cards   card[]
 }
 
 enum book_status {
