@@ -3,34 +3,8 @@ import { ApolloServer } from "@apollo/server";
 import { NextResponse } from "next/server";
 import { Post, Resolvers } from "@/generated/graphql";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-
-export const typeDefs = /* GraphQL */ `
-  type Post {
-    id: ID!
-    title: String!
-  }
-
-  type Query {
-    posts: [Post!]!
-  }
-`;
-
-const posts: Post[] = [
-  {
-    id: "42",
-    title: "The Awakening",
-  },
-  {
-    id: "43",
-    title: "City of Glass",
-  },
-];
-
-const resolvers: Resolvers = {
-  Query: {
-    posts: () => posts,
-  },
-};
+import { typeDefs } from "@/graphql/schema";
+import { resolvers } from "@/graphql/resolver";
 
 const server = new ApolloServer({
   typeDefs,

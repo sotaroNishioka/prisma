@@ -1,5 +1,5 @@
 export const typeDefs = `
-  enunm BookStatus {
+  enum BookStatus {
     FAVORITE
     IN_PROGRESS
     DONE
@@ -67,10 +67,11 @@ export const typeDefs = `
   }
 
   type Query {
-    user(id: ID!): User!
-    getBook(id: ID!): Book!
+    getUser(id: ID!): User!
+    getBook(id: String): String!
     getCard(id: ID!): Card!
     listBooks(filter: BookInput): [Book]!
     listCards(filter: CardInput): [Card]!
+    test: String!
   }
 `;
