@@ -18,60 +18,62 @@ export const typeDefs = `
     AUTHENTICATED
   }
 
-
   type User {
-    id: ID!
+    id: String!
     status: UserStatus!
     name: String!
     email: String!
-    books: [Book]!
-    cards: [Card]!
+    createdAt: String!
+    updatedAt: String!
   }
-  
+
   type Book {
-    id: ID!
-    name: String
-    stauts: BookStatus!
-    userId: ID!
-    user: User!
-    cards: [Card]!
+    id: String!
+    name: String!
+    status: BookStatus!
+    userId: String!
+    createdAt: String!
+    updatedAt: String!
   }
 
   type Card {
-    id: ID!
+    id: String!
     status: CardStatus!
-    english: String!
-    japanese: String!
+    english: String
+    japanese: String
     memo: String
-    userId: ID!
-    user: User!
-    bookId: ID!
-    book: Book!
+    userId: String!
+    bookId: String!
+    createdAt: String!
+    updatedAt: String!
   }
 
   input BookInput {
-    id: ID
+    id: String
     name: String
     status: BookStatus
-    userId: ID!
+    userId: String!
+    createdAt: String
+    updatedAt: String
   }
 
   input CardInput {
-    id: ID
+    id: String
     status: CardStatus
     english: String
     japanese: String
     memo: String
-    userId: ID!
-    bookId: ID
+    userId: String!
+    bookId: String
+    createdAt: String
+    updatedAt: String
   }
 
   type Query {
-    getUser(id: ID!): User!
-    getBook(id: String): String!
-    getCard(id: ID!): Card!
+    getUser(id: String!): User!
+    getBook(id: String!): Book!
+    getCard(id: String!): Card!
     listBooks(filter: BookInput): [Book]!
     listCards(filter: CardInput): [Card]!
-    test: String!
   }
 `;

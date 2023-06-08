@@ -16,6 +16,8 @@ CREATE TABLE "book" (
     "name" VARCHAR(255) NOT NULL,
     "status" "book_status" NOT NULL DEFAULT 'IN_PROGRESS',
     "user_id" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "book_pkey" PRIMARY KEY ("id")
 );
@@ -24,11 +26,13 @@ CREATE TABLE "book" (
 CREATE TABLE "card" (
     "id" TEXT NOT NULL DEFAULT uuid_generate_v4(),
     "status" "card_status" NOT NULL DEFAULT 'IN_PROGRESS',
-    "english" VARCHAR(255) NOT NULL,
-    "japanese" VARCHAR(255) NOT NULL,
-    "memo" TEXT NOT NULL,
+    "english" VARCHAR(255),
+    "japanese" VARCHAR(255),
+    "memo" TEXT,
     "user_id" TEXT NOT NULL,
     "book_id" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "card_pkey" PRIMARY KEY ("id")
 );
@@ -39,6 +43,8 @@ CREATE TABLE "user" (
     "status" "user_status" NOT NULL DEFAULT 'NOT_AUTHENTICATED',
     "name" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );

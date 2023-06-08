@@ -11,33 +11,39 @@ datasource db {
 }
 
 model book {
-  id     String       @id @default(dbgenerated("uuid_generate_v4()"))
-  name   String       @db.VarChar(255)
-  status book_status  @default(IN_PROGRESS)
-  user_id String
-  user   user         @relation(fields: [user_id], references: [id])
-  cards   card[]
+  id          String       @id @default(dbgenerated("uuid_generate_v4()"))
+  name        String       @db.VarChar(255)
+  status      book_status  @default(IN_PROGRESS)
+  user_id     String
+  user        user         @relation(fields: [user_id], references: [id])
+  cards       card[]
+  created_at  DateTime     @default(now()) @map("created_at")
+  updated_at  DateTime     @default(now()) @updatedAt @map("updated_at")
 }
 
 model card {
-  id     String        @id @default(dbgenerated("uuid_generate_v4()"))
-  status card_status   @default(IN_PROGRESS)
-  english    String    @db.VarChar(255)
-  japanese     String  @db.VarChar(255)
-  memo   String
-  user_id String
-  user   user          @relation(fields: [user_id], references: [id])
-  book_id String
-  book   book          @relation(fields: [book_id], references: [id])
+  id          String       @id @default(dbgenerated("uuid_generate_v4()"))
+  status      card_status  @default(IN_PROGRESS)
+  english     String?      @db.VarChar(255)
+  japanese    String?      @db.VarChar(255)
+  memo        String?
+  user_id     String
+  user        user         @relation(fields: [user_id], references: [id])
+  book_id     String
+  book        book         @relation(fields: [book_id], references: [id])
+  created_at  DateTime     @default(now()) @map("created_at")
+  updated_at  DateTime     @default(now()) @updatedAt @map("updated_at")
 }
 
 model user {
-  id     String       @id @default(dbgenerated("uuid_generate_v4()"))
-  status user_status  @default(NOT_AUTHENTICATED)
-  name   String       @db.VarChar(255)
-  email  String       @db.VarChar(255)
-  books   book[]
-  cards   card[]
+  id          String       @id @default(dbgenerated("uuid_generate_v4()"))
+  status      user_status  @default(NOT_AUTHENTICATED)
+  name        String       @db.VarChar(255)
+  email       String       @db.VarChar(255)
+  books       book[]
+  cards       card[]
+  created_at  DateTime     @default(now()) @map("created_at")
+  updated_at  DateTime     @default(now()) @updatedAt @map("updated_at")
 }
 
 enum book_status {
