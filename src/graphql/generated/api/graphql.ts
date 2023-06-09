@@ -42,15 +42,6 @@ export type Book = {
   userId: Scalars["String"]["output"];
 };
 
-export type BookInput = {
-  createdAt?: InputMaybe<Scalars["String"]["input"]>;
-  id?: InputMaybe<Scalars["String"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-  status?: InputMaybe<BookStatus>;
-  updatedAt?: InputMaybe<Scalars["String"]["input"]>;
-  userId: Scalars["String"]["input"];
-};
-
 export type BookStatus =
   | "DELETED"
   | "DONE"
@@ -71,7 +62,43 @@ export type Card = {
   userId: Scalars["String"]["output"];
 };
 
-export type CardInput = {
+export type CardStatus =
+  | "DELETED"
+  | "DONE"
+  | "FAVORITE"
+  | "IN_PROGRESS"
+  | "%future added value";
+
+export type CreateBookInput = {
+  name: Scalars["String"]["input"];
+  status?: InputMaybe<BookStatus>;
+  userId: Scalars["String"]["input"];
+};
+
+export type CreateCardInput = {
+  bookId: Scalars["String"]["input"];
+  english?: InputMaybe<Scalars["String"]["input"]>;
+  japanese?: InputMaybe<Scalars["String"]["input"]>;
+  memo?: InputMaybe<Scalars["String"]["input"]>;
+  status?: InputMaybe<CardStatus>;
+  userId: Scalars["String"]["input"];
+};
+
+export type CreateUserInput = {
+  email: Scalars["String"]["input"];
+  name: Scalars["String"]["input"];
+};
+
+export type ListBookInput = {
+  createdAt?: InputMaybe<Scalars["String"]["input"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
+  status?: InputMaybe<BookStatus>;
+  updatedAt?: InputMaybe<Scalars["String"]["input"]>;
+  userId: Scalars["String"]["input"];
+};
+
+export type ListCardInput = {
   bookId?: InputMaybe<Scalars["String"]["input"]>;
   createdAt?: InputMaybe<Scalars["String"]["input"]>;
   english?: InputMaybe<Scalars["String"]["input"]>;
@@ -83,12 +110,44 @@ export type CardInput = {
   userId: Scalars["String"]["input"];
 };
 
-export type CardStatus =
-  | "DELETED"
-  | "DONE"
-  | "FAVORITE"
-  | "IN_PROGRESS"
-  | "%future added value";
+export type Mutation = {
+  __typename?: "Mutation";
+  createBook: Book;
+  createCard: Card;
+  createUser: User;
+  deleteBook: Book;
+  deleteCard: Card;
+  updateBook: Book;
+  updateCard: Card;
+};
+
+export type MutationCreateBookArgs = {
+  input: CreateBookInput;
+};
+
+export type MutationCreateCardArgs = {
+  input: CreateCardInput;
+};
+
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
+};
+
+export type MutationDeleteBookArgs = {
+  id: Scalars["String"]["input"];
+};
+
+export type MutationDeleteCardArgs = {
+  id: Scalars["String"]["input"];
+};
+
+export type MutationUpdateBookArgs = {
+  input: UpdateBookInput;
+};
+
+export type MutationUpdateCardArgs = {
+  input: UpdateCardInput;
+};
 
 export type Query = {
   __typename?: "Query";
@@ -112,11 +171,25 @@ export type QueryGetUserArgs = {
 };
 
 export type QueryListBooksArgs = {
-  filter?: InputMaybe<BookInput>;
+  filter?: InputMaybe<ListBookInput>;
 };
 
 export type QueryListCardsArgs = {
-  filter?: InputMaybe<CardInput>;
+  filter?: InputMaybe<ListCardInput>;
+};
+
+export type UpdateBookInput = {
+  id: Scalars["String"]["input"];
+  name: Scalars["String"]["input"];
+  status?: InputMaybe<BookStatus>;
+};
+
+export type UpdateCardInput = {
+  english?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["String"]["input"];
+  japanese?: InputMaybe<Scalars["String"]["input"]>;
+  memo?: InputMaybe<Scalars["String"]["input"]>;
+  status?: InputMaybe<CardStatus>;
 };
 
 export type User = {
@@ -242,14 +315,20 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Book: ResolverTypeWrapper<Book>;
-  BookInput: BookInput;
   BookStatus: BookStatus;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]["output"]>;
   Card: ResolverTypeWrapper<Card>;
-  CardInput: CardInput;
   CardStatus: CardStatus;
+  CreateBookInput: CreateBookInput;
+  CreateCardInput: CreateCardInput;
+  CreateUserInput: CreateUserInput;
+  ListBookInput: ListBookInput;
+  ListCardInput: ListCardInput;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars["String"]["output"]>;
+  UpdateBookInput: UpdateBookInput;
+  UpdateCardInput: UpdateCardInput;
   User: ResolverTypeWrapper<User>;
   UserStatus: UserStatus;
 };
@@ -257,12 +336,18 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Book: Book;
-  BookInput: BookInput;
   Boolean: Scalars["Boolean"]["output"];
   Card: Card;
-  CardInput: CardInput;
+  CreateBookInput: CreateBookInput;
+  CreateCardInput: CreateCardInput;
+  CreateUserInput: CreateUserInput;
+  ListBookInput: ListBookInput;
+  ListCardInput: ListCardInput;
+  Mutation: {};
   Query: {};
   String: Scalars["String"]["output"];
+  UpdateBookInput: UpdateBookInput;
+  UpdateCardInput: UpdateCardInput;
   User: User;
 };
 
@@ -293,6 +378,54 @@ export type CardResolvers<
   updatedAt?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MutationResolvers<
+  ContextType = ApolloContext,
+  ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]
+> = {
+  createBook?: Resolver<
+    ResolversTypes["Book"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateBookArgs, "input">
+  >;
+  createCard?: Resolver<
+    ResolversTypes["Card"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateCardArgs, "input">
+  >;
+  createUser?: Resolver<
+    ResolversTypes["User"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateUserArgs, "input">
+  >;
+  deleteBook?: Resolver<
+    ResolversTypes["Book"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteBookArgs, "id">
+  >;
+  deleteCard?: Resolver<
+    ResolversTypes["Card"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteCardArgs, "id">
+  >;
+  updateBook?: Resolver<
+    ResolversTypes["Book"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateBookArgs, "input">
+  >;
+  updateCard?: Resolver<
+    ResolversTypes["Card"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateCardArgs, "input">
+  >;
 };
 
 export type QueryResolvers<
@@ -347,6 +480,7 @@ export type UserResolvers<
 export type Resolvers<ContextType = ApolloContext> = {
   Book?: BookResolvers<ContextType>;
   Card?: CardResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };

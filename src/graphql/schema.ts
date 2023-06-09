@@ -48,7 +48,7 @@ export const typeDefs = `
     updatedAt: String!
   }
 
-  input BookInput {
+  input ListBookInput {
     id: String
     name: String
     status: BookStatus
@@ -57,7 +57,7 @@ export const typeDefs = `
     updatedAt: String
   }
 
-  input CardInput {
+  input ListCardInput {
     id: String
     status: CardStatus
     english: String
@@ -69,11 +69,55 @@ export const typeDefs = `
     updatedAt: String
   }
 
+  input CreateUserInput {
+    name: String!
+    email: String!
+  }
+
+  input CreateBookInput {
+    name: String!
+    status: BookStatus
+    userId: String!
+  }
+
+  input CreateCardInput {
+    status: CardStatus
+    english: String
+    japanese: String
+    memo: String
+    userId: String!
+    bookId: String!
+  }
+
+  input UpdateBookInput {
+    id: String!
+    name: String!
+    status: BookStatus
+  }
+
+  input UpdateCardInput {
+    id: String!
+    status: CardStatus
+    english: String
+    japanese: String
+    memo: String
+  }
+
   type Query {
     getUser(id: String!): User!
     getBook(id: String!): Book!
     getCard(id: String!): Card!
-    listBooks(filter: BookInput): [Book]!
-    listCards(filter: CardInput): [Card]!
+    listBooks(filter: ListBookInput): [Book]!
+    listCards(filter: ListCardInput): [Card]!
+  }
+
+  type Mutation {
+    createUser(input: CreateUserInput!): User!
+    createBook(input: CreateBookInput!): Book!
+    createCard(input: CreateCardInput!): Card!
+    updateBook(input: UpdateBookInput!): Book!
+    updateCard(input: UpdateCardInput!): Card!
+    deleteBook(id: String!): Book!
+    deleteCard(id: String!): Card!
   }
 `;

@@ -133,4 +133,169 @@ export const resolvers: Resolvers = {
       }));
     },
   },
+  Mutation: {
+    createUser: async (_, args, contextValue, __) => {
+      if (!args.input) {
+        throw new Error("input is required");
+      }
+      const res = await contextValue.prisma.user.create({
+        data: {
+          email: args.input.email,
+          name: args.input.name,
+        },
+      });
+      return {
+        id: res.id,
+        email: res.email,
+        name: res.name,
+        status: res.status,
+        createdAt: res.created_at.toISOString(),
+        updatedAt: res.updated_at.toISOString(),
+      };
+    },
+    createBook: async (_, args, contextValue, __) => {
+      if (!args.input) {
+        throw new Error("input is required");
+      }
+      const res = await contextValue.prisma.book.create({
+        data: {
+          name: args.input.name,
+          status:
+            args.input.status === "%future added value" ||
+            args.input.status === null
+              ? undefined
+              : args.input.status,
+          user_id: args.input.userId,
+        },
+      });
+      return {
+        id: res.id,
+        name: res.name,
+        status: res.status,
+        userId: res.user_id,
+        createdAt: res.created_at.toISOString(),
+        updatedAt: res.updated_at.toISOString(),
+      };
+    },
+    createCard: async (_, args, contextValue, __) => {
+      if (!args.input) {
+        throw new Error("input is required");
+      }
+      const res = await contextValue.prisma.card.create({
+        data: {
+          status:
+            args.input.status === "%future added value" ||
+            args.input.status === null
+              ? undefined
+              : args.input.status,
+          english: args.input.english,
+          japanese: args.input.japanese,
+          memo: args.input.memo,
+          user_id: args.input.userId,
+          book_id: args.input.bookId,
+        },
+      });
+      return {
+        id: res.id,
+        status: res.status,
+        english: res.english,
+        japanese: res.japanese,
+        memo: res.memo,
+        userId: res.user_id,
+        bookId: res.book_id,
+        createdAt: res.created_at.toISOString(),
+        updatedAt: res.updated_at.toISOString(),
+      };
+    },
+    updateBook: async (_, args, contextValue, __) => {
+      if (!args.input) {
+        throw new Error("input is required");
+      }
+      const res = await contextValue.prisma.book.update({
+        where: { id: args.input.id },
+        data: {
+          name: args.input.name,
+          status:
+            args.input.status === "%future added value" ||
+            args.input.status === null
+              ? undefined
+              : args.input.status,
+        },
+      });
+      return {
+        id: res.id,
+        name: res.name,
+        status: res.status,
+        userId: res.user_id,
+        createdAt: res.created_at.toISOString(),
+        updatedAt: res.updated_at.toISOString(),
+      };
+    },
+    updateCard: async (_, args, contextValue, __) => {
+      if (!args.input) {
+        throw new Error("input is required");
+      }
+      const res = await contextValue.prisma.card.update({
+        where: { id: args.input.id },
+        data: {
+          status:
+            args.input.status === "%future added value" ||
+            args.input.status === null
+              ? undefined
+              : args.input.status,
+          english: args.input.english,
+          japanese: args.input.japanese,
+          memo: args.input.memo,
+        },
+      });
+      return {
+        id: res.id,
+        status: res.status,
+        english: res.english,
+        japanese: res.japanese,
+        memo: res.memo,
+        userId: res.user_id,
+        bookId: res.book_id,
+        createdAt: res.created_at.toISOString(),
+        updatedAt: res.updated_at.toISOString(),
+      };
+    },
+    deleteBook: async (_, args, contextValue, __) => {
+      if (!args.id) {
+        throw new Error("id is required");
+      }
+      const res = await contextValue.prisma.book.update({
+        where: { id: args.id },
+        data: { status: "DELETED" },
+      });
+      return {
+        id: res.id,
+        name: res.name,
+        status: res.status,
+        userId: res.user_id,
+        createdAt: res.created_at.toISOString(),
+        updatedAt: res.updated_at.toISOString(),
+      };
+    },
+    deleteCard: async (_, args, contextValue, __) => {
+      if (!args.id) {
+        throw new Error("id is required");
+      }
+      const res = await contextValue.prisma.card.update({
+        where: { id: args.id },
+        data: { status: "DELETED" },
+      });
+      return {
+        id: res.id,
+        status: res.status,
+        english: res.english,
+        japanese: res.japanese,
+        memo: res.memo,
+        userId: res.user_id,
+        bookId: res.book_id,
+        createdAt: res.created_at.toISOString(),
+        updatedAt: res.updated_at.toISOString(),
+      };
+    },
+  },
 };
