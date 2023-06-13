@@ -10,6 +10,6 @@ POSTGRES_PASSWORD="************"
 POSTGRES_DATABASE="************"
 ```
 
-start local: yarn dev
-apolli studio: localhost:3000/api/graphql
-prisma studio: npx prisma studio
+start local: yarn dev. 
+apolli studio: localhost:3000/api/graphql. 
+prisma studio: npx prisma studio. 
